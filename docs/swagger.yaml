@@ -1,0 +1,307 @@
+swagger: "2.0"
+info:
+  description: "Sushi Order Service"
+  version: "1.0.0"
+  title: "Sushi-Deli"
+host: "[host]"
+basePath: "/v1/api"
+tags:
+- name: "sushi"
+  description: "Sushi product"
+- name: "cart"
+  description: "Sushi product description"
+- name: "order"
+  description: "Sushi product order"
+- name: "user"
+  description: "User"
+schemes:
+- "http"
+paths:
+  /sushis:
+    get:
+      tags: 
+        - sushi
+      description: "Get Sushi-product List"
+      produces: 
+        - application/json
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: object
+            properties:
+              product_id:
+                type: string
+                description: "ID with 8 character"
+              product_name:
+                type: string
+                description: "name"
+              product_price:
+                type: integer
+                description: "price"
+              product_image_path:
+                type: string
+                description: "image path in S3"
+    post:
+      tags: 
+        - sushi
+      description: "Create new Sushi-product"
+      consumes: 
+        - application/json
+      parameters:
+        - in: body
+          name: sushi
+          schema:
+            $ref: "#/definitions/Sushis"
+      responses:
+        201:
+          description: "Created"
+  /sushis/{product_id}:
+    get:
+      tags: 
+        - sushi
+      description: "Get Sushi-product List"
+      parameters: 
+        - in: path
+          name: product_id
+          type: string
+          required: true
+          description: "ID with 8 character"
+      produces: 
+        - application/json
+      responses:
+        200:
+          description: "detailed product information"
+          schema:
+            $ref: "#/definitions/Sushis"
+    put:
+      tags: 
+        - sushi
+      description: "Create new Sushi-product"
+      consumes: 
+        - application/json
+      parameters:
+        - in: path
+          name: product_id
+          type: string
+          required: true
+          description: "ID with 8 character"
+        - in: body
+          name: sushi
+          schema:
+            $ref: "#/definitions/Sushis"
+      responses:
+        200:
+          description: "Updated"
+
+    delete:
+      tags: 
+        - sushi
+      description: "Delete target Sushi-product"
+      consumes: 
+        - application/json
+      parameters:
+        - in: path
+          name: product_id
+          type: string
+          required: true
+          description: "ID with 8 character"
+      responses:
+        204:
+          description: "No Content"
+
+  /cart/{user_id}:
+    get:
+      tags:
+        - cart
+      description: "Get Cart Item for the user"
+      parameters:
+        - in: path
+          name: user_id
+          type: string
+          required: true
+          description: "User ID with 8 character"
+      produces: 
+        - application/json
+      responses:
+        200:
+          description: "detailed product information"
+          schema:
+            $ref: "#/definitions/Cart"
+
+    delete:
+      tags: 
+        - cart
+      description: "Delete target cart item for the user"
+      consumes: 
+        - application/json
+      parameters:
+        - in: path
+          name: user_id
+          type: string
+          required: true
+          description: "User ID with 8 character"
+      responses:
+        204:
+          description: "No Content"
+
+  /order:
+    post:
+      tags: 
+        - order
+      description: "Create new Order"
+      consumes: 
+        - application/json
+      parameters:
+        - in: body
+          name: order
+          schema:
+            $ref: "#/definitions/Order"
+      responses:
+        201:
+          description: "Created"
+
+  /order/{order_id}:
+    get:
+      tags:
+        - order
+      description: "Get Order Item for the user"
+      parameters:
+        - in: path
+          name: order_id
+          type: string
+          required: true
+          description: "Order ID with 8 character"
+      produces: 
+        - application/json
+      responses:
+        200:
+          description: "the order information"
+          schema:
+            $ref: "#/definitions/Order"
+
+  /user:
+    post:
+      tags: 
+        - user
+      description: "Create new User"
+      consumes: 
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "Created"
+
+  /user/{user_id}:
+    get:
+      tags:
+        - user
+      description: "Get User Info"
+      parameters:
+        - in: path
+          name: user_id
+          type: string
+          required: true
+          description: "User ID with 8 character"
+      produces: 
+        - application/json
+      responses:
+        200:
+          description: "detailed product information"
+          schema:
+            $ref: "#/definitions/User"
+
+definitions:
+  Sushis:
+    type: object
+    required:
+      - sushi_id
+      - sushi_name
+    properties:
+      sushi_id:
+        type: string
+        description: "ID with 8 character"
+      sushi_name:
+        type: string
+        description: "name"
+      sushi_description:
+        type: string
+        description: "description about product"
+      sushi_price:
+        type: integer
+        description: "price"
+      sushi_image_path:
+        type: string
+        description: "image path in S3"
+      sushi_avail_flg:
+        type: string
+        description: "available flag"
+  Cart:
+    type: object
+    required: 
+      - user_id
+      - sushi_id
+    properties:
+      user_id:
+        type: string
+        description: "User ID with 8 character"
+      sushi_id:
+        type: string
+        description: "Sushi ID with 8 character"
+      sushi_amount:
+        type: integer
+        description: "Order amount of sushi"
+  Order:
+    type: object
+    required: 
+      - order_id
+      - user_id
+    properties:
+      order_id:
+        type: string
+        description: "Order ID with 8 character"
+      user_id:
+        type: string
+        description: "User ID with 8 character"
+      register_dttm:
+        type: string
+        description: "register datetime"
+      del_dttm:
+        type: string
+        description: "deleted datetime"
+      dlfg:
+        type: string
+        description: "deleted flag"
+  User:
+    type: object
+    required: 
+      - user_id
+    properties:
+      user_id:
+        type: string
+        description: "User ID with 8 character"
+      first_name:
+        type: string
+        description: "firstname"
+      last_name:
+        type: string
+        description: "lastname"
+      address:
+        type: string
+        description: "address"
+      email_address:
+        type: string
+        description: "email"
+      register_dttm:
+        type: string
+        description: "Register datetime"
+      del_dttm:
+        type: string
+        description: "Logically deleted datetime"
+      dlfg:
+        type: string
+        description: "Logically deleted"
