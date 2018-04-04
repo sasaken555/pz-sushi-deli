@@ -42,25 +42,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "type": "object",
-              "properties": {
-                "product_id": {
-                  "type": "string",
-                  "description": "ID with 8 character"
-                },
-                "product_name": {
-                  "type": "string",
-                  "description": "name"
-                },
-                "product_price": {
-                  "type": "integer",
-                  "description": "price"
-                },
-                "product_image_path": {
-                  "type": "string",
-                  "description": "image path in S3"
-                }
-              }
+              "$ref": "#/definitions/Sushis"
             }
           }
         }
@@ -89,7 +71,7 @@
         }
       }
     },
-    "/sushis/{product_id}": {
+    "/sushis/{sushi_id}": {
       "get": {
         "tags": [
           "sushi"
@@ -337,7 +319,7 @@
       ],
       "properties": {
         "sushi_id": {
-          "type": "string",
+          "type": "integer",
           "description": "ID with 8 character"
         },
         "sushi_name": {
@@ -370,11 +352,11 @@
       ],
       "properties": {
         "user_id": {
-          "type": "string",
+          "type": "integer",
           "description": "User ID with 8 character"
         },
         "sushi_id": {
-          "type": "string",
+          "type": "integer",
           "description": "Sushi ID with 8 character"
         },
         "sushi_amount": {
@@ -391,11 +373,11 @@
       ],
       "properties": {
         "order_id": {
-          "type": "string",
+          "type": "integer",
           "description": "Order ID with 8 character"
         },
         "user_id": {
-          "type": "string",
+          "type": "integer",
           "description": "User ID with 8 character"
         },
         "register_dttm": {
@@ -419,7 +401,7 @@
       ],
       "properties": {
         "user_id": {
-          "type": "string",
+          "type": "integer",
           "description": "User ID with 8 character"
         },
         "first_name": {

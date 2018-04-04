@@ -28,20 +28,7 @@ paths:
         200:
           description: "successful operation"
           schema:
-            type: object
-            properties:
-              product_id:
-                type: string
-                description: "ID with 8 character"
-              product_name:
-                type: string
-                description: "name"
-              product_price:
-                type: integer
-                description: "price"
-              product_image_path:
-                type: string
-                description: "image path in S3"
+            $ref: "#/definitions/Sushis"
     post:
       tags: 
         - sushi
@@ -56,7 +43,7 @@ paths:
       responses:
         201:
           description: "Created"
-  /sushis/{product_id}:
+  /sushis/{sushi_id}:
     get:
       tags: 
         - sushi
@@ -223,7 +210,7 @@ definitions:
       - sushi_name
     properties:
       sushi_id:
-        type: string
+        type: integer
         description: "ID with 8 character"
       sushi_name:
         type: string
@@ -247,10 +234,10 @@ definitions:
       - sushi_id
     properties:
       user_id:
-        type: string
+        type: integer
         description: "User ID with 8 character"
       sushi_id:
-        type: string
+        type: integer
         description: "Sushi ID with 8 character"
       sushi_amount:
         type: integer
@@ -262,10 +249,10 @@ definitions:
       - user_id
     properties:
       order_id:
-        type: string
+        type: integer
         description: "Order ID with 8 character"
       user_id:
-        type: string
+        type: integer
         description: "User ID with 8 character"
       register_dttm:
         type: string
@@ -282,7 +269,7 @@ definitions:
       - user_id
     properties:
       user_id:
-        type: string
+        type: integer
         description: "User ID with 8 character"
       first_name:
         type: string
